@@ -3,3 +3,6 @@
 test.py
 *.pyc
 gg.*
+
+*.pyd
+build/
