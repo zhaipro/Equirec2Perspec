@@ -22,13 +22,13 @@ double radians(double x)
 static PyObject* py_get_perspective(PyObject *self, PyObject *args)
 {
     PyArrayObject *input, *output, *mat;
-    float fov;
-    if (!PyArg_ParseTuple(args, "OOOf", &input, &output, &mat, &fov))
+    double fov;
+    if (!PyArg_ParseTuple(args, "OOOd", &input, &output, &mat, &fov))
         return NULL;
 
     int iw, ih, ow, oh;
-    float equ_cx, equ_cy;
-    float *mat_data = (float*)mat->data;
+    double equ_cx, equ_cy;
+    double *mat_data = (double*)mat->data;
     iw = input->dimensions[1];
     ih = input->dimensions[0];
     ow = output->dimensions[1];
@@ -36,14 +36,14 @@ static PyObject* py_get_perspective(PyObject *self, PyObject *args)
     equ_cx = (iw - 1) / 2.0;
     equ_cy = (ih - 1) / 2.0;
 
-    float w_len = tan(radians(fov / 2.0));
-    float h_len = w_len * oh / ow;
+    double w_len = tan(radians(fov / 2.0));
+    double h_len = w_len * oh / ow;
 
     for(int i = 0; i < oh; i++)
     for(int j = 0; j < ow; j++)
     {
-        float x, y, z, d;
-        float xx, yy, zz;
+        double x, y, z, d;
+        double xx, yy, zz;
         int lat, lon;
         x = -w_len + 2 * w_len / (ow - 1) * j;
         y = -h_len + 2 * h_len / (oh - 1) * i;
